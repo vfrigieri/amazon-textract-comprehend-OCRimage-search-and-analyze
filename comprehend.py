@@ -135,12 +135,12 @@ def handler(event, context):
                 text += block['Text']+"\n"
         print(text)
         # Extracting Key Phrases
-        keyphrase_response = comprehend.detect_key_phrases(Text=text, LanguageCode='en')
+        keyphrase_response = comprehend.detect_key_phrases(Text=text, LanguageCode='pt')
         KeyPhraseList=keyphrase_response.get("KeyPhrases")
         for s in KeyPhraseList:
               textvalues.append(s.get("Text"))
                     
-        detect_entity= comprehend.detect_entities(Text=text, LanguageCode='en')
+        detect_entity= comprehend.detect_entities(Text=text, LanguageCode='pt')
         EntityList=detect_entity.get("Entities")
         for s in EntityList:
                 textvalues_entity.update([(s.get("Type").strip('\t\n\r'),s.get("Text").strip('\t\n\r'))])
