@@ -484,8 +484,7 @@ Resources:
                 - 'lambda.amazonaws.com'
             Action: 's3:PutObject'
             Resource: !Join 
-              - ''
-              - - 'arn:aws:s3:::'
+                - 'arn:aws:s3:::'
                 - !Ref document-search-mail
                 - /*
       Bucket: !Ref document-search-mail
