@@ -469,31 +469,41 @@ Resources:
   documentSearchMail:
     Type: AWS::S3::Bucket
     BucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      PolicyDocument:
-        Id: MyPolicy
-        Version: 2012-10-17
-        Statement:
-          - Sid: PublicReadForGetBucketObjects
-            Effect: Allow
-            Principal:
-              Service:
-                - 'ses.amazonaws.com'
-                - 'edgelambda.amazonaws.com'
-                - 'lambda.amazonaws.com'
-            Action: 's3:PutObject'
-            Resource: !Join 
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: 2012-10-17
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal:
+                Service:
+                  - 'ses.amazonaws.com'
+                  - 'edgelambda.amazonaws.com'
+                  - 'lambda.amazonaws.com'
+              Action: 's3:PutObject'
+              Resource: !Join 
                 - 'arn:aws:s3:::'
                 - !Ref documentSearchMail
                 - /*
-      Bucket: !Ref documentSearchMail
+        Bucket: !Ref documentSearchMail
  
-  document-search-email-rule-set:
+  documentSearchEmailRuleSet:
     Type: AWS::SES::ReceiptRuleSet
     
-   
-    
+  documentSearchEmailRule0:
+    Type: AWS::SES::ReceiptRule
+    Properties: 
+      Rule:
+        Actions:
+          - S3Action:
+            BucketName: !Ref documentSearchMail
+        Recipients: 
+          - 'dexter@tassya.org'
+      
+      RuleSetName: !Ref documentSearchEmailRuleSet
+
 
 Outputs:
   S3KeyPhraseBucket:
