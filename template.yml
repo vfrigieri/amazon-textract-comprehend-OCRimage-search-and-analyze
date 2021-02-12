@@ -466,7 +466,7 @@ Resources:
       FunctionARN: !GetAtt 'ComprehendKeyPhraseAnalysis.Arn'
       NotificationId: S3ObjectCreatedEvent
  
-  document-search-mail:
+  documentSearchMail:
     Type: AWS::S3::Bucket
     BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -485,10 +485,15 @@ Resources:
             Action: 's3:PutObject'
             Resource: !Join 
                 - 'arn:aws:s3:::'
-                - !Ref document-search-mail
+                - !Ref documentSearchMail
                 - /*
-      Bucket: !Ref document-search-mail
+      Bucket: !Ref documentSearchMail
  
+  document-search-email-rule-set:
+    Type: AWS::SES::ReceiptRuleSet
+    
+   
+    
 
 Outputs:
   S3KeyPhraseBucket:
