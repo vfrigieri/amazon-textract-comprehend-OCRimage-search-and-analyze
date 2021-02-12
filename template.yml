@@ -479,8 +479,8 @@ Resources:
             Effect: Allow
             Principal:
               Service:
-                - 'ses.amazonaws.com',
-                - 'edgelambda.amazonaws.com',
+                - 'ses.amazonaws.com'
+                - 'edgelambda.amazonaws.com'
                 - 'lambda.amazonaws.com'
             Action: 's3:PutObject'
             Resource: !Join 
