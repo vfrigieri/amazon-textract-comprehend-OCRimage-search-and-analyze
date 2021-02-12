@@ -120,7 +120,7 @@ Resources:
             Statement:
               - Sid: AllowBucketNotification
                 Effect: Allow
-                Action: s3:PutBucketNotificationConfiguration
+                Action: s3:PutBucketNotification
                 Resource:
                   - !Sub 'arn:aws:s3:::${S3}'
                   - !Sub 'arn:aws:s3:::${S3}/*'
