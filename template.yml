@@ -466,7 +466,29 @@ Resources:
       FunctionARN: !GetAtt 'ComprehendKeyPhraseAnalysis.Arn'
       NotificationId: S3ObjectCreatedEvent
  
-  
+  document-search-mail:
+    Type: AWS::S3::Bucket
+    BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal:
+              Service:
+                - "ses.amazonaws.com",
+                - "edgelambda.amazonaws.com",
+                - "lambda.amazonaws.com"
+            Action: 's3:PutObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref document-search-mail
+                - /*
+      Bucket: !Ref document-search-mail
  
 
 Outputs:
