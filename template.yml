@@ -41,7 +41,6 @@ Resources:
             - python3.6
             - python3.7
   
-
   ComprehendKeyPhraseAnalysis:
     Properties:
       Description: "Triggered by S3 review upload to the repo bucket and start the key phrase analysis via Amazon Comprehend"
@@ -86,7 +85,6 @@ Resources:
  
   S3:
     Type: AWS::S3::Bucket
- 
     
   TestS3BucketEventPermission:
     Type: AWS::Lambda::Permission
@@ -98,7 +96,6 @@ Resources:
         - S3
         - Arn
       Principal: s3.amazonaws.com
-
 
   ApplyNotificationFunctionRole:
     Type: AWS::IAM::Role
@@ -124,8 +121,7 @@ Resources:
                 Resource:
                   - !Sub 'arn:aws:s3:::${S3}'
                   - !Sub 'arn:aws:s3:::${S3}/*'
-                  
-                  
+                                 
   ApplyBucketNotificationFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -197,7 +193,7 @@ Resources:
             finally:
               cfnresponse.send(event, context, status, {}, new_physical_id)
      
-   #
+  #   
   # Cognito and IAM
   #
   # Creates a user pool in cognito to auth against
@@ -427,9 +423,7 @@ Resources:
             Action:
             - iam:PassRole
             Resource: !GetAtt CognitoESAccessRole.Arn
-
-  
-    
+   
   ElasticsearchDomain: 
     Type: AWS::Elasticsearch::Domain
     Properties:
@@ -455,7 +449,6 @@ Resources:
               - { AuthRole: !Ref CognitoAuthorizedRole }
           Effect: Allow
           Resource: !Sub 'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${DOMAINNAME}/*' 
-    
 
   
   ApplyNotification:
@@ -501,9 +494,8 @@ Resources:
             BucketName: !Ref documentSearchMail
         Recipients: 
           - 'dexter@tassya.org'
-      
+        Enabled: true
       RuleSetName: !Ref documentSearchEmailRuleSet
-
 
 Outputs:
   S3KeyPhraseBucket:
@@ -512,11 +504,6 @@ Outputs:
   KibanaLoginURL:
     Description: Kibana login URL
     Value: !Sub https://${ElasticsearchDomain.DomainEndpoint}/_plugin/kibana/
-
-
-  
-
-
   
 
 
