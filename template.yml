@@ -472,7 +472,7 @@ Resources:
             'Fn::Join':
               - '' 
               - - 'arn:aws:s3:::'
-                - !Ref: document-search-mail
+                - Ref: document-search-mail
                 - /*
           Principal:
             Service:
