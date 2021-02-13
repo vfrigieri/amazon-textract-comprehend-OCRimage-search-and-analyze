@@ -490,7 +490,7 @@ Resources:
     Properties:
       Rule:
         Actions:
-          - S3Action:
+          S3Action:
             BucketName: !Ref documentSearchMail
         Recipients:
           - 'dexter@tassya.org'
