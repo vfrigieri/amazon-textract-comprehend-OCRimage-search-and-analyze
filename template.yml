@@ -458,21 +458,20 @@ Resources:
  
   DocumentSearchMail:
     Type: AWS::S3::Bucket
-    
+
   DocumentSearchMailPolice:  
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: document-search-mail
+      Bucket: !Ref document-search-mail
       PolicyDocument:
         Statement:
           Action: 
             - 's3:PutObject'
           Effect: Allow
-          Resource: 
-            'Fn::Join':
+          Resource: !Join
               - '' 
               - - 'arn:aws:s3:::'
-                - Ref: S3Bucket
+                - !Ref document-search-mail
                 - /*
           Principal:
             Service:
