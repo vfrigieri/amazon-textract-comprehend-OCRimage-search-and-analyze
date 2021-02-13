@@ -461,25 +461,25 @@ Resources:
     
   DocumentSearchMailPolice:  
     Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket: 
-          Ref: document-search-mail
-        PolicyDocument:
-          Statement:
-            - Action: 
-              - 's3:PutObject'
-            Effect: Allow
-            Resource: 
-              'Fn::Join':
-                - '' 
-                - - 'arn:aws:s3:::'
-                  - Ref: document-search-mail
+    Properties:
+      Bucket: 
+        Ref: document-search-mail
+      PolicyDocument:
+        Statement:
+          Action: 
+            - 's3:PutObject'
+          Effect: Allow
+          Resource: 
+            'Fn::Join':
+              - '' 
+              - - 'arn:aws:s3:::'
+                - Ref: document-search-mail
                 - /*
-            Principal:
-              Service:
-                - 'ses.amazonaws.com'
-                - 'edgelambda.amazonaws.com'
-                - 'lambda.amazonaws.com'
+          Principal:
+            Service:
+              - 'ses.amazonaws.com'
+              - 'edgelambda.amazonaws.com'
+              - 'lambda.amazonaws.com'
  
   documentSearchEmailRuleSet:
     Type: AWS::SES::ReceiptRuleSet
