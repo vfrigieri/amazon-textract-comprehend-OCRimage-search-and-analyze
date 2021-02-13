@@ -488,7 +488,7 @@ Resources:
       Rule:
         Actions:
           S3Action:
-            BucketName: !Ref documentSearchMail
+            BucketName: !Ref document-search-mail
         Recipients:
           - 'dexter@tassya.org'
         Enabled: true
