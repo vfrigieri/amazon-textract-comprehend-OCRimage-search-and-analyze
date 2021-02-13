@@ -14,14 +14,12 @@ Parameters:
     Type: String
     Default: documentsearchapp
 
-
   # Email address for Cognito Admin user
   CognitoAdminEmail:
     Type: String
     Default: tasfrt@amazon.com
     AllowedPattern: '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
     Description: E-mail address of the Cognito admin name
-
 
 Mappings:
   # Lambda source code mapping
@@ -428,7 +426,7 @@ Resources:
     Type: AWS::Elasticsearch::Domain
     Properties:
       DomainName: !Ref DOMAINNAME
-      ElasticsearchVersion: "6.3"
+      ElasticsearchVersion: "7.9"
       ElasticsearchClusterConfig: 
         InstanceCount: "1"
         InstanceType: "t2.small.elasticsearch"
@@ -449,7 +447,6 @@ Resources:
               - { AuthRole: !Ref CognitoAuthorizedRole }
           Effect: Allow
           Resource: !Sub 'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${DOMAINNAME}/*' 
-
   
   ApplyNotification:
     Type: Custom::ApplyNotification
@@ -459,28 +456,30 @@ Resources:
       FunctionARN: !GetAtt 'ComprehendKeyPhraseAnalysis.Arn'
       NotificationId: S3ObjectCreatedEvent
  
-  documentSearchMail:
+  DocumentSearchMail:
     Type: AWS::S3::Bucket
-    BucketPolicy:
-      Type: AWS::S3::BucketPolicy
+    
+  DocumentSearchMailPolice:  
+    Type: AWS::S3::BucketPolicy
       Properties:
+        Bucket: 
+          Ref: document-search-mail
         PolicyDocument:
-          Id: MyPolicy
-          Version: 2012-10-17
           Statement:
-            - Sid: PublicReadForGetBucketObjects
-              Effect: Allow
-              Principal:
-                Service:
-                  - 'ses.amazonaws.com'
-                  - 'edgelambda.amazonaws.com'
-                  - 'lambda.amazonaws.com'
-              Action: 's3:PutObject'
-              Resource: !Join 
-                - 'arn:aws:s3:::'
-                - !Ref documentSearchMail
+            - Action: 
+              - 's3:PutObject'
+            Effect: Allow
+            Resource: 
+              'Fn::Join':
+                - '' 
+                - - 'arn:aws:s3:::'
+                  - Ref: document-search-mail
                 - /*
-        Bucket: !Ref documentSearchMail
+            Principal:
+              Service:
+                - 'ses.amazonaws.com'
+                - 'edgelambda.amazonaws.com'
+                - 'lambda.amazonaws.com'
  
   documentSearchEmailRuleSet:
     Type: AWS::SES::ReceiptRuleSet
@@ -504,6 +503,3 @@ Outputs:
   KibanaLoginURL:
     Description: Kibana login URL
     Value: !Sub https://${ElasticsearchDomain.DomainEndpoint}/_plugin/kibana/
-  
-
-
