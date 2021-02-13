@@ -462,8 +462,7 @@ Resources:
   DocumentSearchMailPolice:  
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: 
-        Ref: document-search-mail
+      Bucket: document-search-mail
       PolicyDocument:
         Statement:
           Action: 
@@ -473,7 +472,7 @@ Resources:
             'Fn::Join':
               - '' 
               - - 'arn:aws:s3:::'
-                - Ref: document-search-mail
+                - !Ref: document-search-mail
                 - /*
           Principal:
             Service:
