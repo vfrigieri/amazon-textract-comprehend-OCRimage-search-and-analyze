@@ -487,12 +487,12 @@ Resources:
     
   documentSearchEmailRule0:
     Type: AWS::SES::ReceiptRule
-    Properties: 
+    Properties:
       Rule:
         Actions:
           - S3Action:
             BucketName: !Ref documentSearchMail
-        Recipients: 
+        Recipients:
           - 'dexter@tassya.org'
         Enabled: true
       RuleSetName: !Ref documentSearchEmailRuleSet
