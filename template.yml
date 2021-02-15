@@ -455,44 +455,6 @@ Resources:
       S3Bucket: !Ref 'S3'
       FunctionARN: !GetAtt 'ComprehendKeyPhraseAnalysis.Arn'
       NotificationId: S3ObjectCreatedEvent
- 
-  DocumentSearchMail:
-    Type: AWS::S3::Bucket
-
-  DocumentSearchMailPolice:  
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref document-search-mail
-      PolicyDocument:
-        Statement:
-          Action: 
-            - 's3:PutObject'
-          Effect: Allow
-          Resource: !Join
-              - '' 
-              - - 'arn:aws:s3:::'
-                - !Ref document-search-mail
-                - /*
-          Principal:
-            Service:
-              - 'ses.amazonaws.com'
-              - 'edgelambda.amazonaws.com'
-              - 'lambda.amazonaws.com'
- 
-  documentSearchEmailRuleSet:
-    Type: AWS::SES::ReceiptRuleSet
-    
-  documentSearchEmailRule0:
-    Type: AWS::SES::ReceiptRule
-    Properties:
-      Rule:
-        Actions:
-          S3Action:
-            BucketName: !Ref document-search-mail
-        Recipients:
-          - 'dexter@tassya.org'
-        Enabled: true
-      RuleSetName: !Ref documentSearchEmailRuleSet
 
 Outputs:
   S3KeyPhraseBucket:
